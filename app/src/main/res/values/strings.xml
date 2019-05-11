@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Tstuff</string>
+    <string name="title_activity_toolbar">toolbar</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string-array name="names">
+        <item> 0 </item>
+        <item> 1 </item>
+        <item> 2 </item>
+        <item> 3 </item>
+        <item> 4 </item>
+        <item> 5 </item>
+    </string-array>
+</resources>
