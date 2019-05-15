@@ -51,7 +51,7 @@ public class NeedList extends Tmenu {
 
             if(data.getInt(2) == 0 || data.getInt(2) == 1) {
 
-                NeedList.add((new Tlist(data.getString(1), data.getInt(2))));
+                NeedList.add((new Tlist(data.getString(1), data.getInt(2),data.getInt(0))));
             }
 
         }
