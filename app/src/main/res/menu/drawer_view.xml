@@ -15,7 +15,7 @@
         <item
             android:id="@+id/drink"
             android:icon="@mipmap/baseline_opacity_black_24dp"
-            android:title="Water"/>
+            android:title="Water Stats"/>
 
         <item
             android:id="@+id/slist"

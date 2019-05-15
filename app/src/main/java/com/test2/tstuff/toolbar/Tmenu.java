@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.test2.tstuff.List.Listmenu;
 import com.test2.tstuff.List.Lists;
 import com.test2.tstuff.MainActivity;
 import com.test2.tstuff.R;
@@ -59,7 +60,7 @@ public class Tmenu extends AppCompatActivity {
                                 break;
 
                             case R.id.slist: // Shopping list
-                                i = new Intent(Tmenu.this, Lists.class);
+                                i = new Intent(Tmenu.this, Listmenu.class);
                                 startActivity(i);
                                 break;
 

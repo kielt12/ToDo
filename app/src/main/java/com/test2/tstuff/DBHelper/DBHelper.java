@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "list.db";// database name
     private static final int DB_VER = 1; // database version
     private static final String Table = "gList"; // grocery list table
-    private static final String Table1 = "needs"; // needs list
+    private static final String DeletedTable = "deleteList"; // needs list
 
     // column for grocery list
     private static String ItemCol = "Item"; // item
@@ -45,14 +45,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + Table + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, Item text, Quantity integer)");
-        //db.execSQL("create table "+Table1+" (ID INTEGER PRIMARY KEY AUTOINCREMENT, Item text, Quantity integer)");
+        db.execSQL("create table "+DeletedTable+" (ID INTEGER PRIMARY KEY AUTOINCREMENT, Item text, Quantity integer)");
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Table);
-        //db.execSQL("DROP TABLE IF EXISTS "+Table1);
+        db.execSQL("DROP TABLE IF EXISTS "+DeletedTable);
 
         Log.w(TAG, "Update from old version");
 
@@ -88,6 +88,29 @@ public class DBHelper extends SQLiteOpenHelper {
         return data;
     }
 
+    public Cursor delgetData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + DeletedTable;
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public boolean deladdData(String item, int quantity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues c = new ContentValues();
+        c.put("Item", item);
+        c.put("Quantity", quantity);
+
+
+        long result = db.insert(DeletedTable, null, c);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     public void update(String name, String oldname, int quan ) {
         ContentValues updateValues = new ContentValues();
 
@@ -99,5 +122,19 @@ public class DBHelper extends SQLiteOpenHelper {
         db.update(Table,updateValues,where,whereArgs);
 
 
+    }
+
+    public void delete(String name){
+        String where = id + "=?";
+        String whereArgs[] = {name};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(Table,where,whereArgs);
+    }
+
+    public void DelListDelete(String name){
+        String where = id + "=?";
+        String whereArgs[] = {name};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DeletedTable,where,whereArgs);
     }
 }

@@ -1,4 +1,4 @@
-package com.test2.tstuff.List;
+package com.test2.tstuff.List.AdaptersList;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.test2.tstuff.List.Tlist;
 import com.test2.tstuff.R;
 
 import java.util.ArrayList;

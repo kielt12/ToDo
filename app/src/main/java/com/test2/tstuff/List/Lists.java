@@ -92,7 +92,7 @@ public class Lists extends Tmenu {
         boolean insertData = sqlLiteDataBaseHelper.addData(newEntry, item);
 
         if (insertData) {
-           Toast toast = Toast.makeText(Lists.this, "inserted",Toast.LENGTH_LONG);
+           Toast toast = Toast.makeText(Lists.this, "Added",Toast.LENGTH_LONG);
             toast.show();
         } else {
             Toast.makeText(this, "Fail",Toast.LENGTH_SHORT);

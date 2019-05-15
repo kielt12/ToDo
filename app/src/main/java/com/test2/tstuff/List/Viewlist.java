@@ -1,29 +1,23 @@
 package com.test2.tstuff.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.test2.tstuff.DBHelper.DBHelper;
-import com.test2.tstuff.MainActivity;
+import com.test2.tstuff.List.AdaptersList.ListAdapter;
 import com.test2.tstuff.R;
 import com.test2.tstuff.toolbar.Tmenu;
 
@@ -63,16 +57,7 @@ public class Viewlist extends Tmenu {
                 li = tlists.get(i);
                 Integer itemID =  li.getID();
 
-                prompt(li.getTlist(),li.getQuantity(),itemID.toString());
-
-                //sql.update(itemID.toString());
-
-
-
-               //Intent nextActivity = new Intent(Viewlist.this,DelList.class);
-                //nextActivity.putExtra("id",itemID.toString());
-               // startActivity(nextActivity);
-
+               final boolean bool = delete_or_update(li.getTlist(),li.getQuantity(),itemID.toString());
             }
         });
 
@@ -116,7 +101,7 @@ public class Viewlist extends Tmenu {
 
             }
         });
-        editText.setText("", TextView.BufferType.EDITABLE);
+        editText.setText(item, TextView.BufferType.EDITABLE);
 
 
         display.setText("Name: "+item);
@@ -130,7 +115,8 @@ public class Viewlist extends Tmenu {
         builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "List updated", Toast.LENGTH_SHORT);
+                Toast toast =  Toast.makeText(getApplicationContext(), "List updated", Toast.LENGTH_SHORT);
+                toast.show();
 
                 final int quan = Integer.valueOf(t);
                 final String name = editText.getText().toString();
@@ -150,15 +136,50 @@ public class Viewlist extends Tmenu {
             }
         });
 
-        //builder.show();
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.show();
 
-        Button pos = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        Button neg = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
 
-       neg.setTextColor(getResources().getColor(R.color.menColor));
-       pos.setTextColor(getResources().getColor(R.color.menColor));
+
+    }
+
+
+    private boolean delete_or_update(final String item, final int Quantity, final String id){
+        LayoutInflater UDPrompt = LayoutInflater.from(this);
+        final View text = UDPrompt.inflate(R.layout.up_or_del,null);
+
+        final TextView display = text.findViewById(R.id.up_or_deltextView1);
+        final TextView display2 = text.findViewById(R.id.up_or_deltextView2);
+        display.setText("Name: "+item);
+        display2.setText("Quantity: "+Quantity);
+        AlertDialog.Builder UOrD = new AlertDialog.Builder(this);
+
+        UOrD.setView(text);
+
+        UOrD.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sql.delete(id);
+                sql.deladdData(item,Integer.valueOf(Quantity));
+                Toast toast =  Toast.makeText(getApplicationContext(), "item deleted", Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+                startActivity(getIntent());
+
+            }
+        });
+
+        UOrD.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                prompt(item,Quantity,id);
+
+
+            }
+        });
+
+
+        UOrD.show();
+        return true;
 
 
 
